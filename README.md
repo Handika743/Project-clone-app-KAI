@@ -1,13 +1,15 @@
 <body>
     <h1>Website Sistem Data Pegawai</h1>
-    
+    <div>
     <h2>Resources</h2>
+    
     <ul>
         <li>React Native</li>
         <li>Expo</li>
         <li>Supabase</li>
         <li>react-navigation</li>
     </ul>
+        </div>
 
     <h2>How to run in localhost</h2>
 
