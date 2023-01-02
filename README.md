@@ -1,4 +1,4 @@
-<h1 align="center">Website Sistem Data Pegawai</h1>
+<h1 align="center">Aplikasi clone KAI Access</h1>
 
 ## Resources
 -   React Native
@@ -22,11 +22,11 @@ expo start
 ```
 
 ## Screenshots
-### Home Page
+<h3>Home Page</h3>
 <img src="./screenshot/Screenshot_20221216-133600_Expo%20Go.png" alt="Home Page" width="400px" align="center">
-### Tiket Page
+<h3>Tiket Page</h3>
 <img src="./screenshot/Screenshot_20221216-133858_Expo%20Go.png" alt="Home Page" width="400px" align="center">
-### Riwayat Page
+<h3>Riwayat Page</h3>
 <img src="./screenshot/Screenshot_20221216-133737_Expo%20Go.png" alt="Home Page" width="400px" align="center">
-### Account Page
+<h3>Akun Page</h3>
 <img src="./screenshot/Screenshot_20221216-133650_Expo%20Go.png" alt="Home Page" width="400px" align="center">
