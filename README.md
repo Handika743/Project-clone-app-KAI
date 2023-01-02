@@ -22,4 +22,11 @@ expo start
 ```
 
 ## Screenshots
+### Home Page
 <img src="./screenshot/Screenshot_20221216-133600_Expo%20Go.png" alt="Home Page" width="400px" align="center">
+### Tiket Page
+<img src="./screenshot/Screenshot_20221216-133858_Expo%20Go.png" alt="Home Page" width="400px" align="center">
+### Riwayat Page
+<img src="./screenshot/Screenshot_20221216-133737_Expo%20Go.png" alt="Home Page" width="400px" align="center">
+### Account Page
+<img src="./screenshot/Screenshot_20221216-133650_Expo%20Go.png" alt="Home Page" width="400px" align="center">
