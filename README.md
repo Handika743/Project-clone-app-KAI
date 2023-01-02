@@ -1,33 +1,25 @@
-<body>
-    <h1>Website Sistem Data Pegawai</h1>
-    <div>
-    <h2>Resources</h2>
-    
-    <ul>
-        <li>React Native</li>
-        <li>Expo</li>
-        <li>Supabase</li>
-        <li>react-navigation</li>
-    </ul>
-        </div>
+<h1>Website Sistem Data Pegawai</h1>
 
-    <h2>How to run in localhost</h2>
+<h2>Resources</h2>
+-   React Native
+-   Expo
+-   Supabase
+-   react-navigation
 
-### 1. clone project
+<h2>How to run in localhost</h2>
+
+<h3>1. clone project</h3>
 ```
 git clone https://github.com/ryanabi-RA/Project-clone-app-KAI.git
 ```
-### 2. Install dependencies
+<h3>2. Install dependencies</h3>
 ```
 npm install
 ```
-### 3. start demo app
+<h3>3. start demo app</h3>
 ```
 expo start
 ```
 
-## Screenshots
-<img src="./screenshot/Screenshot_20221216-133600_Expo%20Go.png" alt="Home Page" width="400px">
-
-</body>
-</html>
+<h2>Screenshots</h2>
+<img src="./screenshot/Screenshot_20221216-133600_Expo%20Go.png" alt="Home Page" width="400px" align="center">
