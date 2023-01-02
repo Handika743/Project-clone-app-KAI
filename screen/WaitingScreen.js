@@ -38,7 +38,9 @@ function WaitingScreen({navigation}) {
   
   const statusX = (a) => {
     return (
-      <TouchableOpacity style={{ width: 100, height: 'auto', borderColor: 'blue', borderWidth: 2, padding: 2}} onPress={() => onSimpan(a)}>
+      <TouchableOpacity style={{ width: 100, height: 'auto', borderColor: 'blue', borderWidth: 2, padding: 2}} 
+      // onPress={() => onSimpan(a)}
+      >
         <Text>Bayar</Text>
       </TouchableOpacity>
     )
@@ -56,13 +58,17 @@ function WaitingScreen({navigation}) {
     // navigation.navigate('') 
 }
 
-  const sortir = (a, idTiket, nama, noTelp, kelas, dewasa, bayi, asal, tujuan, jamBerangkat, jamSampai, tanggalTiket, x, y, z) => {
+  const sortir = (a, idTiket, kelas, dewasa, asal, tujuan, jamBerangkat, jamSampai, tanggalTiket, x, y,) => {
     // let id = b;
     if (a) {
       return;
     }
     return (
-      <Card style={{ margin: 10, borderRadius: 10, padding: 20 }}>
+      <Card style={{ margin: 10, borderRadius: 10, padding: 20 }}
+      onPress={() => navigation.navigate('TiketScreen', {
+        id: idTiket,
+      })}
+    >
         <Image style={{ margin: 20, height: 20, width: 50 }} source={require('../assets/kailogowarna.png')} />
         <View style={{ flexDirection: 'row', marginLeft: 10, marginBottom: 10 }}>
           <Ionicons name="train-outline" size={40} color="black" />
@@ -71,22 +77,16 @@ function WaitingScreen({navigation}) {
 
         <View style={{ flexDirection: 'row', marginLeft: 18 }}>
           <View style={{ flexDirection: 'column', }}>
-            <Text style={styles.itemColumn}>Nama</Text>
-            <Text style={styles.itemColumn}>No Telepon</Text>
             <Text style={styles.itemColumn}>Kelas Kereta</Text>
             <Text style={styles.itemColumn}>Penumpang</Text>
           </View>
           <View style={{ flexDirection: 'column', }}>
             <Text style={styles.itemColumn}>:</Text>
             <Text style={styles.itemColumn}>:</Text>
-            <Text style={styles.itemColumn}>:</Text>
-            <Text style={styles.itemColumn}>:</Text>
           </View>
           <View style={{ flexDirection: 'column', }}>
-            <Text style={styles.itemColumn}>{nama}</Text>
-            <Text style={styles.itemColumn}>{noTelp}</Text>
             <Text style={styles.itemColumn}>{kelas}</Text>
-            <Text style={styles.itemColumn}>{dewasa} Dewasa{bayi}</Text>
+            <Text style={styles.itemColumn}>{dewasa} Dewasa</Text>
           </View>
         </View>
 
@@ -94,8 +94,8 @@ function WaitingScreen({navigation}) {
         <Divider style={{ height: 3, alignSelf: 'center', width: '90%', marginVertical: 10 }} />
 
         <View style={{ flexDirection: 'row' }}>
-          <Text style={{ margin: 10, width: '50%', fontSize: 16, fontWeight: 'bold' }}>{asal}</Text>
-          <Text style={{ margin: 10, width: '50%', textAlign: 'right', fontSize: 16, fontWeight: 'bold' }}>{tujuan}</Text>
+          <Text style={{ margin: 10, width: '45%', fontSize: 16, fontWeight: 'bold' }}>{asal}</Text>
+          <Text style={{ margin: 10, width: '45%', textAlign: 'right', fontSize: 16, fontWeight: 'bold' }}>{tujuan}</Text>
         </View>
         
         <View style={{ flexDirection: 'row', margin: 10 }}>
@@ -117,18 +117,18 @@ function WaitingScreen({navigation}) {
         <View style={{ flexDirection: 'row' }}>
           <Text
             style={{
-              width: '50%',
+              width: '45%',
               textAlign: 'left',
               fontWeight: 'bold',
               margin: 10
             }}>{tanggalTiket}</Text>
           <Text style={{
-            width: '50%',
+            width: '45%',
             textAlign: 'right',
             fontWeight: 'bold',
             margin: 10
           }}>{x}{y}</Text>
-        </View>{z}
+        </View>
       </Card>
     )
   }
@@ -143,11 +143,8 @@ function WaitingScreen({navigation}) {
             {sortir(
               item.status_pembayaran,
               item.id_ticket,
-              item.nama_customer,
-              item.no_telp_customer,
               item.kelas_kereta,
-              item.dewasa,
-              bayi(item.bayi),
+              item.jumlah_penumpang,
               item.kota_asal.nama_kota_asal,
               item.kota_tujuan.nama_kota_tujuan,
               item.jadwal_rute_perjalanan.jam_keberangkatan,
@@ -155,7 +152,6 @@ function WaitingScreen({navigation}) {
               item.tanggal_tiket,
               item.tanggal_tiket.toString().slice(0, 8),
               countDate(parseFloat(item.tanggal_tiket.toString().slice(8))),
-              statusX(item.id_ticket),
             )}
           </View>
         )}

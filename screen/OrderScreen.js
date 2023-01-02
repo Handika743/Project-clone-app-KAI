@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, TouchableOpacity,Image } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, Image } from 'react-native';
 import { Appbar, Card, TextInput, RadioButton, Title } from 'react-native-paper';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import NotFoundScreen from './NotFoundScreen';
@@ -7,12 +7,15 @@ import supabase from '../supabase';
 
 function OrderScreen({ navigation, route }) {
     const [data, setData] = useState([]);
+    const [data1, setData1] = useState([]);
+    const [data2, setData2] = useState([]);
+    const [dataTiket, setDataTiket] = useState([]);
     const [namaCustomer, setNamaCustomer] = useState('');
-    const [noTelp, setNoTelp] = useState('');
-    const [pembayaran, setPembayaran] = useState(false);
-    const [digunakan, setDigunakan] = useState(false);
-    const [user, setUser] = useState('1');
-    const [checked, setChecked] = React.useState('');
+    const [akun, setAkun] = useState('1');
+    // const [noTelp, setNoTelp] = useState('');
+    // const [pembayaran, setPembayaran] = useState('false');
+    // const [digunakan, setDigunakan] = useState('false');
+    // const [checked, setChecked] = React.useState('');
     // const [tiket, setTiket] = useState('5');
     // const [jadwal, setJadwal] = useState('');
 
@@ -26,9 +29,21 @@ function OrderScreen({ navigation, route }) {
     const dewasa = route.params.dewasa;
     const bayi = route.params.bayi;
 
+    const [user, setUser] = useState([]);
+    const [userName, setUserName] = useState("");
+
+    const [noTelp, setnoTelp] = useState([]);
+    const [NewNoTelp, setNewNoTelp] = useState("");
+
+    const [gender, setGender] = React.useState([]);
+    const [checked, setChecked] = React.useState('');
+
     useEffect(() => {
         getData();
-    }, [data]);
+        getData1();
+        getData2();
+        // getDataTiket();
+    }, [data, data1, data2]);
 
     const getData = async () => {
         //data : hasil query, error : pesan error
@@ -44,6 +59,28 @@ function OrderScreen({ navigation, route }) {
         setData(data);
         // setJadwal(data.id_jadwal);
     }
+    // ==========
+
+    // const getDataTiket = async () => {
+    //     const { data, error } = await supabase
+    //         .from('ticket')
+    //         .select('*')
+    //         .order('id_ticket', { ascending: false });
+    //     // .limit(last);
+    //     setDataTiket(data.length);
+    // }
+    const getData1 = async () => {
+        const { data, error } = await supabase
+            .from('ticket')
+            .select('*');
+        setData1(data.length);
+    }
+    const getData2 = async () => {
+        const { data, error } = await supabase
+            .from('penumpang')
+            .select('*');
+        setData2(data.length);
+    }
 
 
     const countDate = (a) => {
@@ -54,33 +91,142 @@ function OrderScreen({ navigation, route }) {
         return number;
     }
 
+    const clear = () => {
+        setUser([]);
+        setnoTelp([]);
+        setGender([]);
+    }
 
     const onSimpan = async () => {
-        const { data, error } = await supabase
-            .from('ticket')
-            .insert({
-                // id_ticket: tiket,
-                id_user: user,
-                id_jadwal: jadwal,
-                kode_kereta: kodeKereta,
-                id_kota_asal: asal,
-                id_kota_tujuan: tujuan,
-                nama_customer: namaCustomer,
-                no_telp_customer: noTelp,
-                tanggal_tiket: tanggal,
-                kelas_kereta: kelas,
-                harga_tiket: harga,
-                status_pembayaran: pembayaran,
-                status_digunakan: digunakan,
-                dewasa:dewasa,
-                bayi:bayi,
-            });
-        console.log(error);
+        for (let i = 1; i == 1 ; i++) {
+            const { data, error } = await supabase
+                .from('ticket')
+                .insert({
+                    // id_ticket: tiket,
+                    id_user: akun,
+                    id_jadwal: jadwal,
+                    kode_kereta: kodeKereta,
+                    id_kota_asal: asal,
+                    id_kota_tujuan: tujuan,
+                    tanggal_tiket: tanggal,
+                    kelas_kereta: kelas,
+                    harga_tiket: harga,
+                    // status_pembayaran: pembayaran,
+                    // status_digunakan: digunakan,
+                    jumlah_penumpang: dewasa,
+                    // bayi: bayi,
+                });
+            console.log(error);    
+        };
+        // Alert("Pesan", "Data berhasil disimpan");
+        // navigation.goBack();
+        // navigation.navigate('TiketTab');
+
+        for (let i = 0; i < route.params.dewasa; i++) {
+            const { data, error } = await supabase
+                .from('penumpang')
+                .insert({
+                    nama_penumpang: user[i],
+                    no_telp_penumpang: noTelp[i],
+                    gender: gender[i],
+                });
+            console.log(error);
+            // console.log(user, noTelp, gender);
+        };
+
+        for (let i = 0; i < 1; i++) {
+            const { data, error } = await supabase
+              .from('test-tiket')
+              .insert({
+                // nama_penumpang: user [i],
+                jurusan: 'jakarta - solo',
+                // fk_tiket: 1,
+              });
+            console.log(error);
+          };  
+          onSimpan1();
+    }
+    const onSimpan1 = async () => {
+        let a = data2+1;
+        let b = data1+1;
+        for (let i = 0; i < route.params.dewasa; i++) {
+            const { data, error } = await supabase
+              .from('rls_ticket_penumpang')
+              .insert({
+                fk_id_ticket: b,
+                fk_id_penumpang: a++,
+              });
+            console.log(error);
+          };
+          
+        //   console.log(user, noTelp, gender);
+        setUser([]);
+        setnoTelp([]);
+        setGender([]);
         // Alert("Pesan", "Data berhasil disimpan");
         // navigation.goBack();
         navigation.navigate('TiketTab');
     }
 
+    const addItem = () => {
+        setUser([...user, userName]);
+        setUserName("");
+
+        setnoTelp([...noTelp, NewNoTelp]);
+        setNewNoTelp("");
+
+        setGender([...gender, checked]);
+        setChecked("");
+    };
+
+    const inputData = () => {
+        let output = [];
+        for (let i = 0; i < route.params.dewasa; i++) {
+            output.push(
+                <Card style={{ margin: 10, }}>
+                    <Text style={{textAlign:'center', fontWeight:'bold', fontSize:20}}>Penumpang {i + 1}</Text>
+                    <TextInput
+                        style={{ backgroundColor: '#edf2ef', height: 40, width: '90%', borderRadius: 10, borderTopLeftRadius:10, borderTopRightRadius:10,  marginHorizontal: 10, marginTop:10 }}
+                        placeholder="Nama Penumpang"
+                        value={user[i]}
+                        onChangeText={text => setUserName(text)}
+                        // onChangeText={text => setUser([...user, (text)])}
+                    />
+                    <TextInput
+                        style={{ backgroundColor: '#edf2ef', height: 40, width: '90%', borderRadius: 10, borderTopLeftRadius:10, borderTopRightRadius:10,marginHorizontal: 10, marginTop:10}}
+                        placeholder="Nomor Telepon"
+                        value={noTelp[i]}
+                        onChangeText={text => setNewNoTelp(text)}
+                        // onChangeText={text => setnoTelp([...noTelp, NewNoTelp])}
+                    />
+                    <View style={{ flexDirection: 'row' }}>
+                        <RadioButton
+                            label="Laki-Laki"
+                            value={gender[i]}
+                            status={gender[i] === 'Laki-Laki' || checked === 'Laki-Laki' ? 'checked' : 'unchecked'}
+                            onPress={() => setChecked('Laki-Laki')}
+                        /><Title>Laki-Laki</Title>
+                    </View>
+                    <View style={{ flexDirection: 'row' }}>
+                        <RadioButton
+                            label="Perempuan"
+                            value={gender[i]}
+                            status={gender[i] === 'Perempuan' || checked === 'Perempuan' ? 'checked' : 'unchecked'}
+                            onPress={() => setChecked('Perempuan')}
+                        /><Title>Perempuan</Title>
+                    </View>
+                    <TouchableOpacity
+                        style={{ backgroundColor: 'orange', margin: 10, borderRadius: 12, height: 50, justifyContent: 'center', alignuser: 'center', width: 120, left:'30%' }}
+                        onPress={() => addItem()}
+                    >
+                        <Text style={{ color: 'white', fontWeight: 'bold', margin: 10, fontSize: 20, textAlign:'center' }} >Tambah</Text>
+                    </TouchableOpacity>
+                </Card>
+            );
+        }
+        return output;
+    }
+// const datax1 = setData2;
     return (
         <>
             <Appbar.Header>
@@ -88,29 +234,29 @@ function OrderScreen({ navigation, route }) {
                 <Appbar.Content title="Pesan Tiket" color='white' />
             </Appbar.Header>
             {/* <NotFoundScreen /> */}
+            {/* <Text>{data.length} -- {data2}</Text> */}
             <FlatList
                 data={data}
                 keyExtractor={(item) => item.id}
                 renderItem={({ item, index }) => (
                     <View key={index}>
                         <Card style={{ margin: 10, borderRadius: 8 }}>
-                        <Image style={{margin:20,height:30, width:100}} source={require('../assets/kailogowarna.png')}/>
-                            <Text style={{marginHorizontal:10, fontWeight:'bold', fontSize:18}}>No ID : {item.id_jadwal}</Text>
-                            
+                            <Image style={{ margin: 20, height: 30, width: 100 }} source={require('../assets/kailogowarna.png')} />
+                            <Text style={{ marginHorizontal: 10, fontWeight: 'bold', fontSize: 18 }}>No ID : {item.id_jadwal}</Text>
+                            <Text style={
+                                {
+                                    margin: 10,
+                                    color: 'blue',
+                                    fontWeight: 'bold',
+                                    fontSize: 20,
+                                    width: '50%'
+                                }
+                            }>{item.kereta.nama_kereta}</Text>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Text style={{ marginHorizontal: 10, width: '50%' }}>{kelas}</Text>
                                 <Text style={
                                     {
-                                        margin: 10,
-                                        color: 'blue',
-                                        fontWeight: 'bold',
-                                        fontSize: 20,
-                                        width: '50%'
-                                    }
-                                }>{item.kereta.nama_kereta}</Text>
-                                <View style={{ flexDirection: 'row' }}>
-                                <Text style={{marginHorizontal:10,width:'50%'}}>{kelas}</Text>
-                                <Text style={
-                                    {
-                                        marginHorizontal:10,
+                                        marginHorizontal: 10,
                                         width: '40%',
                                         textAlign: 'right',
                                         color: 'blue',
@@ -166,50 +312,34 @@ function OrderScreen({ navigation, route }) {
                             </View>
                         </Card>
                         <Card style={{ margin: 10, borderRadius: 8, }}>
-                            <View style={{flexDirection:'row'}}>
-                        <MaterialCommunityIcons style={{marginHorizontal: 20, marginVertical:10}} name="seat-passenger" size={40} color="black" />
-                            <Text style={{
-                                textAlign: 'center',
-                                fontSize: 25,
-                                fontWeight: 'bold',
-                                color: 'black',
-                                marginVertical: 10,
-                            }}>Penumpang</Text></View>
-                            <TextInput
-                                style={{ marginHorizontal: 10, backgroundColor:'white',width:'90%' }}
-                                placeholder={'Nama Lengkap'}
-                                value={namaCustomer}
-                                onChangeText={text => setNamaCustomer(text)}
-                            />
-                            <TextInput
-                                style={{ marginHorizontal: 10, backgroundColor:'white',width:'90%' }}
-                                placeholder={'Nomor Telpon'}
-                                value={noTelp}
-                                onChangeText={text => setNoTelp(text)}
-                            />
-                            <View style={{flexDirection:'row'}}>
-                              <RadioButton
-                              title="laki"
-                              label="Laki-Laki"
-                                value="pria"
-                                status={ checked === 'pria' ? 'checked' : 'unchecked' }
-                                onPress={() => setChecked('pria')}
-                              /><Title>Laki-Laki</Title>
-                            </View>
-                            <View style={{flexDirection:'row'}}>
-                              <RadioButton
-                              label="Wanita"
-                                value="wanita"
-                                status={ checked === 'wanita' ? 'checked' : 'unchecked' }
-                                onPress={() => setChecked('wanita')}
-                              /><Title>Perempuan</Title></View>
+                            {inputData()}
                             <TouchableOpacity
                                 style={{ backgroundColor: 'orange', margin: 10, borderRadius: 12, height: 50, justifyContent: 'center', alignItems: 'center' }}
                                 onPress={() => onSimpan()}
+                            // onPress={() => console.log(user, noTelp, gender)}
                             >
                                 <Text style={{ color: 'white', fontWeight: 'bold', margin: 10, fontSize: 20, }} >Beli</Text>
                             </TouchableOpacity>
+                            <TouchableOpacity
+                                style={{ backgroundColor: 'orange', margin: 10, borderRadius: 12, height: 50, justifyContent: 'center', alignItems: 'center' }}
+                                onPress={() => console.log(user, noTelp, gender)}
+                            // onPress={() => console.log(user, noTelp, gender)}
+                            >
+                                <Text style={{ color: 'white', fontWeight: 'bold', margin: 10, fontSize: 20, }} >print</Text>
+                            </TouchableOpacity>
                         </Card>
+                        {/* <View>
+                            <Text>jadwal       : {jadwal}</Text>
+                            <Text>kodeKereta   : {kodeKereta}</Text>
+                            <Text>asal         : {asal}</Text>
+                            <Text>tujuan       : {tujuan}</Text>
+                            <Text>-----------------------</Text>
+                            <Text>kelas        : {kelas}</Text>
+                            <Text>tanggal      : {tanggal}</Text>
+                            <Text>harga        : {harga}</Text>
+                            <Text>dewasa       : {dewasa}</Text>
+                            <Text>bayi         : {bayi}</Text>
+                        </View> */}
                     </View>
                 )}
             />

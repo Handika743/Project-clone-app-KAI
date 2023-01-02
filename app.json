@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "mobile_apps_with_supabase",
-    "slug": "mobile_apps_with_supabase",
+    "name": "my-app",
+    "slug": "my-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

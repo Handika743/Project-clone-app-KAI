@@ -13,6 +13,7 @@ import HistoryScreen from './screen/HistoryScreen';
 import BookingScreen from './screen/BookingScreen';
 import SearchScreen from './screen/SearchScreen';
 import OrderScreen from './screen/OrderScreen';
+import TiketScreen from './screen/TiketScreen';
 
 function Navigation() {
   return (
@@ -21,6 +22,7 @@ function Navigation() {
       <Stack.Screen name="HomeScreen" component={NavigationTab} />
       <Stack.Screen name="SearchScreen" component={SearchScreen} />
       <Stack.Screen name="OrderScreen" component={OrderScreen} />
+      <Stack.Screen name="TiketScreen" component={TiketScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

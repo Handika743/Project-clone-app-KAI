@@ -16,7 +16,7 @@ function AccountScreen({ navigation }) {
           left={props => <Avatar.Image size={50} style={{ margin: 2, }} source={require('../assets/logo_kai_transparent.png')} />}          
           right={props =>
             <TouchableOpacity style={styles.status}>
-              <Text style={{color: 'blue', fontWeight: '600',}}>Basic</Text>
+              <Text style={{color: 'blue', fontWeight: '600', textAlign: 'center',}}>Basic</Text>
             </TouchableOpacity>
           }
         />

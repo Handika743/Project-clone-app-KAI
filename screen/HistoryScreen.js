@@ -1,122 +1,134 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, TouchableOpacity, Image, Text, FlatList } from 'react-native';
-import { Appbar, Card, Divider, } from 'react-native-paper';
+import { Appbar, Button, Card, Divider, TextInput,RadioButton, Title } from 'react-native-paper';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import NotFoundScreen from './NotFoundScreen';
 import supabase from '../supabase';
-import { Touchable } from 'react-native';
 function HistoryScreen({ navigation }) {
-  const [data, setData] = useState('');
-  const [status, setStatus] = useState(true);
+  // const [datax, setDatax] = useState('');
+  // const [idTiket, setIdTiket] = useState('');
 
-  useEffect(() => {
-    getData();
-  }, [data]);
-  //list data 
-  const getData = async () => {
-    const { data, error } = await supabase
-      .from('status_pembayaran')
-      .select('*')
-      .order('id_pembayaran', { ascending: true });
-    setData(data);
-  }
-  const statusX = (a, b) => {
-    return (
-      <TouchableOpacity style={{ width: 100, height: 'auto', borderColor: 'blue', borderWidth: 2, padding: 2}} onPress={() => onSimpan(b)}>
-        <Text>Status false</Text>
-      </TouchableOpacity>
-    )
-  }
-  const onSimpan = async (a) => {
-    const { data, error } = await supabase
-        .from('status_pembayaran')
-        .update({
-            // id_ticket: tiket,
-            status: status,
-        })
-        .eq('id_pembayaran', a);
-    console.log(error);
-    // Alert("Pesan", "Data berhasil disimpan");
-    // navigation.navigate('') 
-}
+  // useEffect(() => {
+  //   getDatatest();
+  // }, [datax]);
+  // //list data 
+  // const getDatatest = async () => {
+  //   const { data, error } = await supabase
+  //     .from('test-tiket')
+  //     .select('*');
+  //   // .order('id_ticket', { ascending: false });
+  //   setDatax(data);
+  //   setIdTiket(data.id_tiket);
+  // }
 
-  const sortir = (a, b, c) => {
-    let id = b;
-    if (a) {
-    return (
-      <Card style={{ margin: 10, borderRadius: 15, padding: 10 }}>
-        <View style={{ flexDirection: 'row' }}>
-          <View style={{ flexDirection: 'column', paddingHorizontal: 10, paddingVertical: 2 }}>
-            <Text>Id pembayaran</Text>
-            <Text>Keterangan</Text>
-            <Text>Status</Text>
-          </View>
-          <View style={{ flexDirection: 'column', paddingHorizontal: 0, paddingVertical: 2 }}>
-            <Text> :  </Text>
-            <Text> :  </Text>
-            <Text> :  </Text>
-          </View>
-          <View style={{ flexDirection: 'column', paddingHorizontal: 2, paddingVertical: 2 }}>
-            <Text>{id}</Text>
-            <Text>Sudah Bayar</Text>
-            <Text>True</Text>
-          </View>
-        </View>{c}
-      </Card>
-    )
-    } else {
-      
-    return (
-      <Card style={{ margin: 10, borderRadius: 15, padding: 10 , backgroundColor: 'grey'}}>
-        <View style={{ flexDirection: 'row' }}>
-          <View style={{ flexDirection: 'column', paddingHorizontal: 10, paddingVertical: 2 }}>
-            <Text>Id pembayaran</Text>
-            <Text>Keterangan</Text>
-            <Text>Status</Text>
-          </View>
-          <View style={{ flexDirection: 'column', paddingHorizontal: 0, paddingVertical: 2 }}>
-            <Text> :  </Text>
-            <Text> :  </Text>
-            <Text> :  </Text>
-          </View>
-          <View style={{ flexDirection: 'column', paddingHorizontal: 2, paddingVertical: 2 }}>
-            <Text>{id}</Text>
-            <Text>Sudah Bayar</Text>
-            <Text>True</Text>
-          </View>
-        </View>{c}
-      </Card>
-    )
-    }
-  }
+  // const [user, setUser] = useState([]);
+  // const [userName, setUserName] = useState("");
 
-  if (data == null) {
-    return (
-      <>
-        <Appbar.Header >
-          <Appbar.Content title="Riwayat +" color='white' />
-        </Appbar.Header>
-        <NotFoundScreen />
-      </>
-    )
-  } else {
-    return (
-      <>
-        <Appbar.Header >
-          <Appbar.Content title="Riwayat +" color='white' />
-        </Appbar.Header>
-        <FlatList
-          data={data}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item, index }) => (
-            <View key={index}>
-              {sortir(item.status, item.id_pembayaran, statusX(item.status, item.id_pembayaran))}
-            </View>
-          )}
-        />
-      </>
-    )
-  }
+  // const [noTelp, setnoTelp] = useState([]);
+  // const [NewNoTelp, setNewNoTelp] = useState("");
+
+  // const [gender, setGender] = React.useState([]);
+  // const [checked, setChecked] = React.useState('');
+
+  // let x = 1;
+
+  // const addItem = () => {
+  //     setUser([...user, userName]);
+  //     setUserName("");
+  
+  //     setnoTelp([...noTelp, NewNoTelp]);
+  //     setNewNoTelp("");
+
+  //     setGender([...gender, checked]);
+  //     setChecked("");
+  // };
+
+  // const onSimpan = async () => {
+  //   // let a = ["test arr1", "text arr2"];
+  //   for (let i = 0; i < 2; i++) {
+  //     const { data, error } = await supabase
+  //       .from('penumpang')
+  //       .insert({
+  //         nama_penumpang: user [i],
+  //         no_telp: noTelp [i],
+  //       });
+  //     console.log(error);      
+  //   }
+  //   console.log(user);
+  //   setUser([]);
+  //   setnoTelp([]);
+  //   setGender([]);
+  // }
+
+  // const inputData = () => {
+  //   let output = [];
+  //   for (let i = 0; i < 2;i++) {
+  //     output.push(
+  //       <Card style={{margin: 10,}}>
+  //         <Text>data ke-{i+1}</Text>
+  //         <TextInput
+  //           style={{ backgroundColor: '#edf2ef', height: 40, width: '100%', borderRadius: 10, marginHorizontal: 10 }}
+  //           placeholder="user"
+  //           value={user [i]}
+  //           onChangeText={text => setUserName(text)}
+  //         />
+  //         <TextInput
+  //           style={{ backgroundColor: '#edf2ef', height: 40, width: '100%', borderRadius: 10, marginHorizontal: 10 }}
+  //           placeholder="no telepon"
+  //           value={noTelp [i]}
+  //           onChangeText={text => setNewNoTelp(text)}
+  //         />
+  //         <View style={{ flexDirection: 'row' }}>
+  //             <RadioButton
+  //                 label="Laki-Laki"
+  //                 value={gender [i]}
+  //                 status={gender[i] === 'Laki-Laki' || checked === 'Laki-Laki' ? 'checked' : 'unchecked'}
+  //                 onPress={() => setChecked('Laki-Laki')}
+  //             /><Title>Laki-Laki</Title>
+  //         </View>
+  //         <View style={{ flexDirection: 'row' }}>
+  //             <RadioButton
+  //                 label="Perempuan"
+  //                 value={gender [i]}
+  //                 status={gender [i] === 'Perempuan' || checked === 'Perempuan' ? 'checked' : 'unchecked'}
+  //                 onPress={() => setChecked('Perempuan')}
+  //             /><Title>Perempuan</Title>
+  //         </View>
+  //         <TouchableOpacity
+  //         style={{ backgroundColor: 'orange', margin: 10, borderRadius: 12, height: 30, justifyContent: 'center', alignuser: 'center', width: 60, }}
+  //         onPress={() => addItem()}
+  //       >
+  //         <Text style={{ color: 'white', fontWeight: 'bold', margin: 10, fontSize: 20, }} >add</Text>
+  //       </TouchableOpacity>
+  //       </Card>
+  //     );
+  //   }
+  //   return output
+  // }
+
+
+  return (
+    <>
+      <Appbar.Header >
+        <Appbar.Content title="Riwayat +" color='white' />
+      </Appbar.Header>
+      <NotFoundScreen/>
+      {/* {inputData()}
+          <TouchableOpacity
+          style={{ backgroundColor: 'orange', margin: 10, borderRadius: 12, height: 50, justifyContent: 'center', alignuser: 'center' }}
+          onPress={() => console.log(user, noTelp, gender)}
+        >
+          <Text style={{ color: 'white', fontWeight: 'bold', margin: 10, fontSize: 20, }} >print</Text>
+        </TouchableOpacity>
+      <TouchableOpacity
+        style={{ backgroundColor: 'orange', margin: 10, borderRadius: 12, height: 50, justifyContent: 'center', alignuser: 'center' }}
+        onPress={() => onSimpan()}
+      // console.log(user)}
+      >
+        <Text style={{ color: 'white', fontWeight: 'bold', margin: 10, fontSize: 20, }} >Simpan</Text>
+      </TouchableOpacity> */}
+    </>
+  )
 }
 
 export default HistoryScreen;

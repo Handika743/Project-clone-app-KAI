@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Switch, TextInput, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, View, Switch, TextInput, Text, TouchableOpacity, ScrollView, Button } from 'react-native';
 import { Title, Card, } from 'react-native-paper';
 import { Picker } from "@react-native-picker/picker";
+import DatePicker from 'react-native-neat-date-picker';
+import { AntDesign } from '@expo/vector-icons';
+
 import supabase from '../supabase';
 import HistoryScreen from './HistoryScreen';
 
@@ -16,7 +19,29 @@ function KAantarkota({ navigation }) {
   const [tanggalBerangkat, setTanggalBerangkat] = useState('');
   const [jumlahDewasa, setJumlahDewasa] = useState('');
   const [jumlahBayi, setJumlahBayi] = useState('');
-  
+
+  const [showDatePicker, setShowDatePicker] = useState(false)
+  const [tanggal, setTanggal] = useState('');
+
+  const openDatePicker = () => {
+    setShowDatePicker(true)
+  }
+
+  const onCancel = () => {
+    // You should close the modal in here
+    setShowDatePicker(false)
+  }
+
+  const onConfirm = (output) => {
+    // You should close the modal in here
+    setShowDatePicker(false)
+    setTanggal(output.dateString)
+
+    // The parameter 'output' is an object containing date and dateString (for single mode).
+    // For range mode, the output contains startDate, startDateString, endDate, and EndDateString
+    // console.log(output.date)
+    // console.log(output.dateString)
+  }
 
   useEffect(() => {
     getKota();
@@ -29,21 +54,7 @@ function KAantarkota({ navigation }) {
       .select('id_kota_asal, nama_kota_asal');
     //   .order('nama_kota_asal', {ascending:true});
     setDataPicker(data);
-
   }
-  // useEffect(() => {
-  //   getKotaTujuan();
-  // }, []);
-
-  //list data picker
-  // const getKotaTujuan = async () => {
-  //   const { data, error } = await supabase
-  //     .from('kota_tujuan')
-  //     .select('id_kota_tujuan, nama_kota_tujuan')
-  //   //   .order('nama_kota_tujuan', {ascending:true});
-  //   setDataPicker2(data);
-
-  // }
 
   return (
     <>
@@ -77,20 +88,28 @@ function KAantarkota({ navigation }) {
             </Picker>
           </Card.Content>
         </View>
-
         <View style={{ flexDirection: 'row', marginTop: 20 }}>
           <Card.Content style={{ alignItems: 'center' }}>
             <Title style={{ fontSize: 15, fontWeight: 'bold' }}>Tanggal Berangkat</Title>
-            <TextInput 
+            <TouchableOpacity onPress={openDatePicker} >
+              <AntDesign name="calendar" size={48} color="blue" />
+              {/* <Button onPress={openDatePicker} /> */}
+              <DatePicker
+                isVisible={showDatePicker}
+                mode={'single'}
+                onCancel={onCancel}
+                onConfirm={onConfirm}
+              />
+            </TouchableOpacity>
+            {/* <TextInput
               label="tanggalBerangkat"
               value={tanggalBerangkat}
               onChangeText={text => setTanggalBerangkat(text)}
               placeholder='Tanggal'
               style={{ backgroundColor: '#edf2ef', height: 40, width: 150, borderRadius: 10 }}
             >
-            </TextInput>
+            </TextInput> */}
           </Card.Content>
-          
         </View>
         <View style={{ flexDirection: 'row', marginTop: 20 }}>
           <Card.Content style={{ alignItems: 'center' }}>
@@ -107,26 +126,27 @@ function KAantarkota({ navigation }) {
 
           <Card.Content style={{ alignItems: 'center' }}>
             <Title style={{ fontSize: 17, fontWeight: 'bold' }}>Penumpang</Title>
-              <View style={{ flexDirection: 'row' }}>
-                <TextInput
-                  style={{ backgroundColor: '#edf2ef', height: 40, width: 70, borderRadius: 10, marginHorizontal: 10 }}
-                  placeholder="Dewasa"
-                  value={jumlahDewasa}
-                  onChangeText={text => setJumlahDewasa(text)}
-                />
-                <TextInput
-                  style={{ backgroundColor: '#edf2ef', height: 40, width: 70, borderRadius: 10 }}
-                  placeholder="Bayi"
-                  value={jumlahBayi}
-                  onChangeText={text => setJumlahBayi(text)}
-                />
-              </View>
+            <View style={{ flexDirection: 'row' }}>
+              <TextInput
+                style={{ backgroundColor: '#edf2ef', height: 40, width: 70, borderRadius: 10, marginHorizontal: 10 }}
+                placeholder="Dewasa"
+                value={jumlahDewasa}
+                onChangeText={text => setJumlahDewasa(text)}
+              />
+              {/* <TextInput
+                style={{ backgroundColor: '#edf2ef', height: 40, width: 70, borderRadius: 10 }}
+                placeholder="Bayi"
+                value={jumlahBayi}
+                onChangeText={text => setJumlahBayi(text)}
+              /> */}
+            </View>
           </Card.Content>
         </View>
         <Text style={{ marginTop: 20, marginLeft: 10, fontSize: 10, color: 'grey' }}>Penumpang bayi tidak mendapatkan kursi sendiri</Text>
+
         <TouchableOpacity
           style={{ backgroundColor: 'orange', margin: 10, borderRadius: 12, height: 50, justifyContent: 'center', alignItems: 'center' }}
-          onPress={() => navigation.navigate('SearchScreen', {idKotaAsal, idKotaTujuan, kelas, tanggalBerangkat, jumlahDewasa, jumlahBayi,})}
+          onPress={() => navigation.navigate('SearchScreen', { idKotaAsal, idKotaTujuan, kelas, jumlahDewasa, tanggal })}
         >
           <Text style={{ color: 'white', fontWeight: 'bold', margin: 10, fontSize: 20, }} >Cari</Text>
         </TouchableOpacity>
@@ -136,30 +156,3 @@ function KAantarkota({ navigation }) {
 }
 
 export default KAantarkota;
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'white',
-    height: '100%',
-  },
-  cardkaipay: {
-    borderTopLeftRadius: 20,
-    borderBottomLeftRadius: 20,
-    height: 80,
-    width: '50%',
-    backgroundColor: 'white',
-  },
-  cardpoint: {
-    borderTopRightRadius: 20,
-    borderBottomRightRadius: 20,
-    height: 80,
-    width: '50%',
-    backgroundColor: 'white',
-  },
-  kaipaypointlogo: {
-    marginHorizontal: 14,
-    marginVertical: 4,
-    height: 50,
-    width: 50
-  }
-});

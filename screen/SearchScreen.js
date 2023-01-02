@@ -12,7 +12,8 @@ function SearchScreen({ navigation, route }) {
   const idKotaAsal = route.params.idKotaAsal;
   const idKotaTujuan = route.params.idKotaTujuan;
   const kelas = route.params.kelas;
-  const tanggal = route.params.tanggalBerangkat;
+  // const tanggal = route.params.tanggalBerangkat;
+  const tanggal = route.params.tanggal;
   const dewasa = route.params.jumlahDewasa;
   const bayi = route.params.jumlahBayi;
 
@@ -41,7 +42,7 @@ function SearchScreen({ navigation, route }) {
     return number;
   }
 
-  if (data == null) {
+  if (data == null || idKotaAsal == idKotaTujuan) {
     return (
       <>
         <Appbar.Header >
