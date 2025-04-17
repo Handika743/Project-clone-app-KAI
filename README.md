@@ -10,7 +10,7 @@
 
 1. clone project
 ```
-git clone https://github.com/ryanabi-RA/Project-clone-app-KAI.git
+git clone https://github.com/Handika743/Project-clone-app-KAI.git
 ```
 2. Install dependencies
 ```
